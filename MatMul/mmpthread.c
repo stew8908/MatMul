@@ -1,4 +1,4 @@
-/* Matrix Multiplication - OpenMP version
+/* Matrix Multiplication - Pthread version
  * Group members: Emmy Woods, Chris Cornell, Brandon Roth
  */
 
