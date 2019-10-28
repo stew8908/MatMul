@@ -38,3 +38,10 @@ prints the hash passed in and then if it meets the requirments, the cracked hash
 output of what is going on can be turned on by uncommenting the printf line.
 
  
+This is precompiled per the instructions but can be rebuilt with "gcc ehashp.c -o ehashp hashfun.o -fopenmp"
+
+./ehashp <"four lower case letter hash">
+
+prints the hash passed in and then if it meets the requirments, the cracked hash string.
+
+output of what is going on can be turned on by uncommenting the printf line.
