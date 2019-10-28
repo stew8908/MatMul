@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
 	if(argc < 2)
 	{
-		printf("Please enter a 3 character, lower case string\n");
+		printf("Please enter a 4 character, lower case string\n");
 		return -1;
 	}
 	

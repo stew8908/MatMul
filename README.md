@@ -45,3 +45,23 @@ This is precompiled per the instructions but can be rebuilt with "gcc ehashp.c -
 prints the hash passed in and then if it meets the requirments, the cracked hash string.
 
 output of what is going on can be turned on by uncommenting the printf line.
+
+example for timing:
+
+p948@cs2:~/MatMul$ time ./ehashp 6385695050
+ hash input = 6385695050
+found!!
+The answer is: slow
+
+real	0m6.589s
+user	0m0.422s
+sys	0m1.351s
+p948@cs2:~/MatMul$ time ./ehashs 6385695050
+ hash input = 6385695050
+The answer is: slow
+
+real	1m24.532s
+user	0m0.555s
+sys	0m1.714s
+
+
