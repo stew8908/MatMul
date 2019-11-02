@@ -1,11 +1,11 @@
-/* hash cracker - sequential
+/* hash cracker - parallel
  * Group members: Emmy woods, Chris Cornell, Brandon Roth
  */
 
 /*compile:
- * gcc ehashs.c -o ehashs hashfun.o
+ * gcc ehashp.c -o ehashp hashfun.o -fopenmp
  * run with hash for "bean"
- * ./ehashs 6385076027
+ * ./ehashp 6385076027
  */
 
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <omp.h>
 
 #define SIZE 5  // the number of letters
 bool answer_found = false;
@@ -37,14 +38,12 @@ void initialize_string(char *str){
 }
 
 // return a char pointer of the charachters that match the hash val
-void run_hash(int level){
+void run_hash(char *test_char, int level){
     for (int i = start_char; i <= end_char; i++){
         if (answer_found == true) return;
         //casting of test_num to a char type
         test_char[level] = ((char) i);
-        // uncomment next line to print out all strings
-        // printf("%s, level:  %d\n", test_char, level);
-
+        
         long int test_hash = hash(test_char);
 
         if(test_hash == encoded_value)
@@ -55,12 +54,25 @@ void run_hash(int level){
         }
 
         if (level < (SIZE-1)){
-            run_hash(level + 1);
+            run_hash(test_char, level + 1);
         }
         // skip characters between Z and a
         if (i == 'Z') i = 'a' - 1;
         // skip characters between 9 and A
         if (i == '9') i = 'A' - 1;
+    }
+}
+
+void parallelize()
+{
+    int i;
+    #pragma omp parallel for private (test_char) private (i)
+    for (i = start_char; i <= end_char; i++)
+    {
+        char test_char[SIZE+1] = {'a'};
+        //initialize_string(test_char);
+        test_char[0] = i;
+        run_hash(test_char, 1);
     }
 }
 
@@ -80,7 +92,9 @@ int main(int argc, char *argv[])
 
     initialize_string(test_char);
 
-    run_hash(0);
+    parallelize();
+
+    //run_hash(0);
 
     //printf("hash calcd");
 
