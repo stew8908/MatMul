@@ -3,7 +3,7 @@
  */
 
 /*compile:
- * gcc ehashs.c -o ehashs hashfun.o
+ * gcc ehashs-recursive.c -o ehashs hashfun.o
  * run with hash for "bean"
  * ./ehashs 6385076027
  */
@@ -15,10 +15,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define SIZE 5  // the number of letters
+#define SIZE 4  // the number of letters
 bool answer_found = false;
 // change start_char to 'A', 'a', or '0' as desired
-int start_char = 'a';
+int start_char = '&';
 // change end_char to 'Z', 'z', or '9' as desired
 int end_char = 'z';
 
@@ -37,15 +37,17 @@ void initialize_string(char *str){
 }
 
 // return a char pointer of the charachters that match the hash val
-void run_hash(int level){
-    for (int i = start_char; i <= end_char; i++){
+void run_hash(int level)
+{
+    for (int i = start_char; i <= end_char; i++)
+    {
         if (answer_found == true) return;
         //casting of test_num to a char type
         test_char[level] = ((char) i);
         // uncomment next line to print out all strings
         // printf("%s, level:  %d\n", test_char, level);
 
-        long int test_hash = hash(test_char);
+        unsigned long int test_hash = hash(test_char);
 
         if(test_hash == encoded_value)
         {
@@ -54,13 +56,26 @@ void run_hash(int level){
             return;
         }
 
-        if (level < (SIZE-1)){
+        if (level < (SIZE-1))
+        {
             run_hash(level + 1);
         }
         // skip characters between Z and a
-        if (i == 'Z') i = 'a' - 1;
+        //if (i == 'Z') i = 'a' - 1;
         // skip characters between 9 and A
-        if (i == '9') i = 'A' - 1;
+        //if (i == '9') i = 'A' - 1;
+
+        // skip characters between & and *
+        if (i == '&') i = '*' - 1;
+
+        // skip characters between * and 0
+        if (i == '*') i = '0' - 1;
+
+        // skip characters between 9 and @
+        if (i == '9') i = '@' - 1;
+        // skip characters between @ and a
+        if (i == '@') i = 'a' - 1;
+
     }
 }
 
